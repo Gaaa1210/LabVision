@@ -1,2 +1,0 @@
-# LabVision
-Trabalho Challenger

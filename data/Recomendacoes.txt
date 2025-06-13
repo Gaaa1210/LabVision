@@ -1,0 +1,1 @@
+Propósito: Uma pasta para armazenar dados persistentes se você optar por usar arquivos (como JSON, CSV) em vez de um banco de dados para guardar informações dos pacientes, exames, etc.

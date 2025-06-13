@@ -1,0 +1,10 @@
+Propósito: É a camada de acesso e persistência de dados. Ela é responsável por "guardar" e "buscar" os objetos (Paciente, Exame, etc.) em algum lugar. Para o seu projeto de faculdade, pode ser em memória (listas/dicionários), em um arquivo JSON/CSV, ou em um banco de dados (como SQLite).
+
+Exemplos:
+paciente_repository.py: Guarda e recupera objetos Paciente.
+fila_atendimento_medico_repository.py: Gerencia a lista de pacientes na fila de atendimento médico.
+fila_exames_repository.py: Gerencia a lista de pacientes na fila de exames.
+
+Lógica: Cada repositório terá métodos como salvar(), buscar_por_id(), listar_todos(), remover(). Eles não contêm lógica de negócio, apenas a de acesso ao armazenamento.
+
+Quem usa: Os serviços são os que interagem com os repositórios para salvar ou carregar dados.

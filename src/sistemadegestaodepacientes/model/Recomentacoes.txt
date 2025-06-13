@@ -1,0 +1,11 @@
+Propósito: Contém as classes que representam os dados (entidades) e a lógica de negócios mais básica. Elas são como os "substantivos" do seu sistema.
+
+Exemplos:
+paciente.py: Define o que é um paciente (com atributos como nome, CPF, idade, etc.).
+exame.py: Define o que é um exame e seus detalhes.
+atendimento_medico.py: Representa um registro de atendimento médico.
+prioridade_cor.py, tipo_exame.py, fila_base.py, resultado_exame.py: Auxiliares para categorizar ou estruturar dados.
+
+Lógica: Essas classes podem ter métodos que operam sobre seus próprios dados (ex: paciente.calcular_idade()).
+
+Quem usa: Todas as equipes precisarão interagir com esses modelos para criar, ler, atualizar e manipular os dados.

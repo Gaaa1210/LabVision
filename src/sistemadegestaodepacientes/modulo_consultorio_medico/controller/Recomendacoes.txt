@@ -1,0 +1,1 @@
+controller/atendimento_controller.py: O controlador para o consultório médico. Ele gerencia as ações do médico (ex: selecionou um paciente, preencheu observações, indicou exames) e interage com o fila_service.py para obter a lista de prioridades e com o exame_service.py para encaminhar para exames.

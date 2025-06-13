@@ -1,0 +1,3 @@
+#Propósito: Lista todas as bibliotecas Python de terceiros (dependências) que seu projeto utiliza. Isso facilita para outras pessoas (ou para você mesmo no futuro) instalar tudo o que é necessário para rodar o projeto usando
+
+#cpf_validator -> Gostaria de falar que o CPF validador tem as logicas aplicaveis para se identificar um CPF mais famosas, então, é importante que sejá inserido um CPF verdadeiro para que o codigo funcione e não de erro.

@@ -1,0 +1,1 @@
+view/tela_exames.py: A interface gráfica (GUI) para a área de exames. É a tela onde os profissionais de saúde registrarão os resultados dos exames.

@@ -1,0 +1,1 @@
+Propósito: Para guardar toda a documentação do seu projeto, como especificações, diagramas (UML, de sequência) e manuais de uso. Essencial para a faculdade!

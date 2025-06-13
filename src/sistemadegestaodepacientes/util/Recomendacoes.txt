@@ -1,0 +1,7 @@
+Propósito: Contém funções e classes de utilidade geral que não se encaixam nas outras categorias. São ferramentas auxiliares que podem ser usadas em qualquer parte do sistema.
+
+Exemplos:
+cpf_validator.py: Uma função que verifica se um CPF é válido.
+date_util.py: Funções para formatar datas ou calcular diferenças de tempo.
+
+Quem usa: Qualquer parte do código que precise de uma funcionalidade genérica que não esteja diretamente ligada à lógica de negócio principal ou aos dados.

@@ -1,0 +1,1 @@
+controller/triagem_controller.py: O controlador para a parte de recepção e triagem. Ele recebe as ações do usuário na interface (ex: clicou em "cadastrar", digitou um CPF), valida a entrada básica e então chama os métodos apropriados do paciente_service.py e fila_service.py para realizar a operação.

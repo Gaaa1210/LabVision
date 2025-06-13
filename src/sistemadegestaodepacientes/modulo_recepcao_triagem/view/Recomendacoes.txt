@@ -1,0 +1,1 @@
+view/tela_recepcao_triagem.py: A interface gráfica (GUI) para o módulo de recepção e triagem. É a tela que o funcionário da recepção verá para cadastrar pacientes e definir a cor da pulseira. Ela exibirá os dados e capturará a entrada do usuário.

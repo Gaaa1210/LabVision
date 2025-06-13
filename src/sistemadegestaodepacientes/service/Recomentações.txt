@@ -1,0 +1,10 @@
+Propósito: Contém a lógica de negócios mais complexa, regras de validação, cálculos e a coordenação de operações que podem envolver múltiplos modelos. Pense neles como os "verbos" ou as "regras" do seu sistema.
+
+Exemplos:
+paciente_service.py: Responsável por validar um CPF, verificar se um paciente existe, ou salvar um novo paciente no "banco de dados" (através do repository).
+fila_service.py: Crítico para o seu projeto! Aqui estará a lógica para adicionar pacientes à fila, aplicar a prioridade por cor, idade e data/hora, e gerenciar a transição entre as filas de atendimento e exames.
+exame_service.py: Lógica para processar um exame, registrar resultados e gerar um laudo.
+
+Lógica: Os serviços utilizam os modelos e os repositórios para realizar operações de alto nível.
+
+Quem usa: Os controladores de cada módulo chamarão métodos desses serviços para executar a lógica de negócio principal do sistema.

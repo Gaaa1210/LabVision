@@ -1,0 +1,1 @@
+controller/exame_controller.py: O controlador para a área de exames. Ele lida com as ações do usuário que realiza os exames (ex: registrou medidas, confirmou a realização) e interage com o fila_service.py para obter a lista de prioridades e com o exame_service.py para registrar os resultados e gerar laudos.

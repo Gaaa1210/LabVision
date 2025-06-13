@@ -1,0 +1,1 @@
+view/tela_consultorio_medico.py: A interface gráfica (GUI) para o consultório médico. É a tela que o médico usará para ver a fila de pacientes, registrar o atendimento e requisitar exames.

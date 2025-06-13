@@ -1,0 +1,1 @@
+Propósito: Contém os testes automatizados para o seu código. É crucial para garantir que cada parte do seu sistema funcione como esperado e para evitar que novas funcionalidades quebrem as antigas.

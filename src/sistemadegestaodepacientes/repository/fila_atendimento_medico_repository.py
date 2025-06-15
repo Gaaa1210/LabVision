@@ -1,45 +1,37 @@
-# src/sistemadegestaodepacientes/repository/atendimento_medico_repository.py
-from typing import Dict, List
-# Importação relativa
-from ..model.atendimento_medico import AtendimentoMedico
-from ..model.paciente import Paciente # Para tipagem e busca por paciente, se precisar do tipo Paciente
+# src/sistemadegestaodepacientes/repository/fila_atendimento_medico_repository.py
+from typing import List
+from ..model.paciente import Paciente # Importação relativa corrigida
 
 class FilaAtendimentoMedicoRepository:
     """
-    Gerencia o armazenamento de objetos AtendimentoMedico em memória.
+    Gerencia a lista de pacientes na fila de atendimento médico em memória.
     Implementa o padrão Singleton.
     """
     _instance = None
-    _atendimentos: Dict[str, AtendimentoMedico] # <--- Dicionário para armazenar atendimentos
+    _fila: List[Paciente] # Declaração de tipo para o atributo de instância
 
     def __new__(cls):
         if cls._instance is None:
-            cls._instance = super(AtendimentoMedicoRepository, cls).__new__(cls)
-            # Dicionário onde a chave é o CPF do paciente e o valor é o objeto AtendimentoMedico
-            cls._instance._atendimentos = {}
+            cls._instance = super(FilaAtendimentoMedicoRepository, cls).__new__(cls)
+            cls._instance._fila = [] # Inicializa a lista _fila para a instância
         return cls._instance
 
-    def registrar_atendimento(self, atendimento: AtendimentoMedico) -> None:
-        """
-        Registra um novo atendimento médico para um paciente.
-        Atualiza o registro se já houver um para o mesmo paciente (CPF).
-        """
-        self._atendimentos[atendimento.paciente.cpf] = atendimento
-        print(f"DEBUG: Atendimento para '{atendimento.paciente.nome}' registrado/atualizado.")
+    def adicionar_paciente_no_indice(self, paciente: Paciente, index: int) -> None:
+        """Adiciona um paciente na fila em um índice específico."""
+        self._fila.insert(index, paciente)
 
-    def buscar_atendimento_por_cpf(self, cpf: str) -> AtendimentoMedico | None:
-        """
-        Busca o último atendimento registrado para um paciente pelo CPF.
-        """
-        return self._atendimentos.get(cpf)
+    def remover_paciente(self, paciente: Paciente) -> bool:
+        """Remove um paciente da fila. Retorna True se removido, False caso contrário."""
+        try:
+            self._fila.remove(paciente)
+            return True
+        except ValueError:
+            return False
 
-    def listar_todos_atendimentos(self) -> List[AtendimentoMedico]:
-        """
-        Retorna uma lista de todos os atendimentos registrados.
-        """
-        return list(self._atendimentos.values())
+    def get_fila(self) -> List[Paciente]:
+        """Retorna a fila atual."""
+        return self._fila
 
-    def _clear_all_atendimentos(self):
-        """Limpa todos os atendimentos do repositório (para debug/teste)."""
-        self._atendimentos = {}
-        print("DEBUG: Repositório de atendimentos médicos limpo.")
+    def _clear_fila(self):
+        """Limpa a fila. (Apenas para debug/teste)"""
+        self._fila = []

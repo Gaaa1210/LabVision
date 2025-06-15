@@ -1,8 +1,8 @@
 from enum import Enum
 
 class PrioridadeCor(Enum):
-    VERMELHO = "Vermelho"
-    AMARELAO = "Amarela"
+    VERMELHA = "Vermelho"
+    AMARELA = "Amarela"
     VERDE = "Verde"
     AZUL = "Azul"
 

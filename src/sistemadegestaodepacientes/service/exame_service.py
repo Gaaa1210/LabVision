@@ -1,13 +1,13 @@
 from sistemadegestaodepacientes.model.paciente import Paciente
+from sistemadegestaodepacientes.model.exame import Exame
+from sistemadegestaodepacientes.model.tipo_exame import TipoExame
 from datetime import datetime
 
 class ExameService:
     def __init__(self):
-        
         self.fila_exames = []
 
     def adicionar_paciente_exame(self, paciente: Paciente):
-        
         if paciente not in self.fila_exames:
             self.fila_exames.append(paciente)
 
@@ -28,38 +28,40 @@ class ExameService:
         }
 
         def idade_preferencial(idade):
-            if idade <= 12 or idade >= 60:
-                return 0  
-            return 1  
+            return 0 if (idade <= 12 or idade >= 60) else 1
 
         def chave_prioridade(paciente):
             cor = paciente.prioridade_cor.lower() if paciente.prioridade_cor else "branco"
-            prioridade_cor = prioridade_cores.get(cor, 5)  
+            prioridade_cor = prioridade_cores.get(cor, 5)
             prioridade_idade = idade_preferencial(paciente.idade)
-
             data_chegada = paciente.data_chegada
             if isinstance(data_chegada, str):
                 try:
                     data_chegada = datetime.fromisoformat(data_chegada)
                 except Exception:
-                    data_chegada = datetime.min  
-
+                    data_chegada = datetime.min
             return (prioridade_cor, prioridade_idade, data_chegada)
 
-        pacientes_ordenados = sorted(pacientes, key=chave_prioridade)
-        return pacientes_ordenados
+        return sorted(pacientes, key=chave_prioridade)
 
-    def registrar_exame(self, paciente: Paciente, tipo_amostra, largura, altura, comprimento, info_observadas, exame_realizado):
-        paciente.tipo_amostra = tipo_amostra
-        paciente.largura = largura
-        paciente.altura = altura
-        paciente.comprimento = comprimento
-        paciente.info_observadas = info_observadas
-        paciente.exame_realizado = exame_realizado
+    def registrar_exame(self, paciente: Paciente, tipo_exame: TipoExame, largura: float, altura: float,
+                        comprimento: float, info_observadas: str, exame_realizado: bool):
+        if not hasattr(paciente, "exames"):
+            paciente.exames = []
 
-        if exame_realizado:
-            
-            if paciente in self.fila_exames:
-                self.fila_exames.remove(paciente)
+        exame = Exame(
+            paciente=paciente,
+            tipo_exame=tipo_exame,
+            largura=largura,
+            altura=altura,
+            comprimento=comprimento,
+            informacoes_observadas=info_observadas,
+            exame_realizado=exame_realizado
+        )
+
+        paciente.exames.append(exame)
+
+        if exame_realizado and paciente in self.fila_exames:
+            self.fila_exames.remove(paciente)
 
         return True

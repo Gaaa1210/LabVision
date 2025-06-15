@@ -10,20 +10,19 @@ class ExameController:
         paciente = self.exame_service.get_proximo_paciente_exame()
 
         if paciente:
-            print(f"Próximo paciente para exame: {paciente.nome} - Prioridade: {paciente.prioridade_cor}")
+            print(f"👩‍⚕️ Próximo paciente para exame: {paciente.nome} - Prioridade: {paciente.prioridade_cor}")
             return paciente
         else:
-            print("Não há pacientes na fila de exames.")
+            print("📭 Não há pacientes na fila de exames.")
             return None
-        
+
     def registrar_resultado_exame(self, cpf, tipo_amostra, largura, altura, comprimento, info_observadas, exame_realizado):
         paciente = self.paciente_repository.buscar_paciente_por_cpf(cpf)
 
         if not paciente:
-            print(f"Paciente com CPF {cpf} não encontrado.")
+            print(f"❌ Paciente com CPF {cpf} não encontrado.")
             return False
-        
-        
+
         sucesso = self.exame_service.registrar_exame(
             paciente=paciente,
             tipo_amostra=tipo_amostra,
@@ -35,8 +34,8 @@ class ExameController:
         )
 
         if sucesso:
-            print("Resultado do exame registrado com sucesso.")
+            print("✅ Resultado do exame registrado com sucesso.")
             return True
         else:
-            print("Falha ao registrar o exame.")
+            print("⚠️ Falha ao registrar o exame.")
             return False

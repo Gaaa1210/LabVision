@@ -7,6 +7,7 @@ import os
 # IMPORTAÇÕES CORRIGIDAS PARA O CAMINHO RELATIVO
 from .modulo_recepcao_triagem.view.tela_recepcao_triagem import TelaRecepcaoTriagem
 from .modulo_consultorio_medico.view.tela_consultorio_medico import TelaConsultorioMedico
+from .modulo_exames.view.tela_exames import TelaExames  # <- ADICIONADO
 
 console = Console()
 
@@ -23,6 +24,7 @@ def main():
     
     tela_recepcao = TelaRecepcaoTriagem()
     tela_consultorio = TelaConsultorioMedico()
+    tela_exames = TelaExames()  # <- ADICIONADO
 
     while True:
         clear_screen()
@@ -30,15 +32,18 @@ def main():
         console.print("-" * 60, style="blue")
         console.print(Text("1. Módulo de Recepção e Triagem", style="cyan"))
         console.print(Text("2. Módulo de Consultório Médico", style="cyan"))
+        console.print(Text("3. Módulo de Exames", style="cyan"))  # <- ADICIONADO
         console.print(Text("0. Sair do Sistema", style="error"))
         console.print("-" * 60, style="blue")
 
-        opcao = Prompt.ask(Text("Escolha o módulo para acessar", style="bright_green"), choices=['0', '1', '2'])
+        opcao = Prompt.ask(Text("Escolha o módulo para acessar", style="bright_green"), choices=['0', '1', '2', '3'])  # <- ALTERADO
 
         if opcao == '1':
             tela_recepcao.exibir_menu()
         elif opcao == '2':
             tela_consultorio.exibir_menu()
+        elif opcao == '3':  # <- ADICIONADO
+            tela_exames.exibir_menu()
         elif opcao == '0':
             console.print("\n[yellow]Encerrando Sistema de Gestão de Pacientes. Até mais![/yellow]")
             break

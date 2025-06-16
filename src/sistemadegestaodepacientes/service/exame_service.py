@@ -1,4 +1,4 @@
-# src/sistemadegestaodepacientes/service/exame_service.py
+
 
 from sistemadegestaodepacientes.model.paciente import Paciente
 from sistemadegestaodepacientes.model.tipo_exame import TipoExame
@@ -17,7 +17,7 @@ class ExameService:
     def __init__(self):
         if not self._inicializado:
             self.fila_exames = []
-            self.resultados_exames = []  # Armazena ResultadoExame
+            self.resultados_exames = []  
             self._inicializado = True
 
     def adicionar_paciente_exame(self, paciente: Paciente):

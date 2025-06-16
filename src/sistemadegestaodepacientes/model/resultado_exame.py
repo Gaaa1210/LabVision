@@ -1,4 +1,3 @@
-# src/sistemadegestaodepacientes/model/resultado_exame.py
 
 from dataclasses import dataclass
 from sistemadegestaodepacientes.model.paciente import Paciente

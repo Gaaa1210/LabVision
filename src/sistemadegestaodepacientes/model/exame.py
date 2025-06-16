@@ -1,5 +1,4 @@
-#Quais são as necessidades de um exame? Eu tenho que apenas especificar o nome do exame?
-# src/sistemadegestaodepacientes/model/exame.py
+
 from datetime import datetime
 # Importações relativas dentro do pacote 'model'
 from .paciente import Paciente
@@ -18,8 +17,8 @@ class Exame:
         self.altura = altura
         self.comprimento = comprimento
         self.informacoes_observadas = informacoes_observadas if informacoes_observadas is not None else ""
-        self.exame_realizado = exame_realizado # Campo de confirmação
-        self.data_realizacao = datetime.now() if exame_realizado else None # Data de registro do exame
+        self.exame_realizado = exame_realizado 
+        self.data_realizacao = datetime.now() if exame_realizado else None 
 
     def __str__(self):
         status = "Realizado" if self.exame_realizado else "Pendente"

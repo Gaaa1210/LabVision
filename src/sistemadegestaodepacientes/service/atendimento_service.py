@@ -1,5 +1,3 @@
-# src/sistemadegestaodepacientes/modulo_consultorio_medico/service/atendimento_service.py
-
 from ..model.paciente import Paciente
 from ..model.atendimento_medico import AtendimentoMedico
 from ..model.tipo_exame import TipoExame
@@ -24,10 +22,6 @@ class AtendimentoService:
 
     def registrar_atendimento_medico(self, paciente: Paciente, observacoes: str,
                                      necessita_exames: bool, tipo_exame_solicitado: TipoExame = None) -> tuple[AtendimentoMedico | None, str]:
-        """
-        Registra um atendimento médico para um paciente.
-        Move o paciente para a fila de exames se necessário.
-        """
         if necessita_exames and not tipo_exame_solicitado:
             return None, "Erro: Tipo de exame deve ser especificado se exames são necessários."
 
@@ -46,8 +40,6 @@ class AtendimentoService:
             exame_service = ExameService()
             exame_service.adicionar_paciente_exame(paciente)
             print(f"DEBUG paciente enviado: {paciente.nome}, idade: {paciente.idade}, cor: {paciente.cor_prioridade}, chegada: {paciente.data_chegada}")
-
-
             return novo_atendimento, "Atendimento registrado. Paciente movido para a fila de exames."
         else:
             return novo_atendimento, "Atendimento registrado. Paciente finalizou o fluxo médico."

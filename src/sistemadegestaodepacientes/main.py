@@ -1,4 +1,4 @@
-# src/sistemadegestaodepacientes/main.py
+
 from rich.console import Console
 from rich.prompt import Prompt
 from rich.text import Text

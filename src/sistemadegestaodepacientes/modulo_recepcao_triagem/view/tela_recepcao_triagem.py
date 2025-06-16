@@ -1,4 +1,3 @@
-# src/sistemadegestaodepacientes/modulo_recepcao_triagem/view/tela_recepcao_triagem.py
 import os
 from rich.console import Console
 from rich.panel import Panel
@@ -7,19 +6,10 @@ from rich.prompt import Prompt, Confirm
 from rich.table import Table
 from rich.theme import Theme
 
-# IMPORTAÇÕES CORRIGIDAS PARA O CAMINHO RELATIVO
-# '.' refere-se ao pacote atual (view).
-# '..' refere-se ao pacote pai (modulo_recepcao_triagem).
-# '...' refere-se ao pacote avô (sistemadegestaodepacientes).
-
 from ..controller.triagem_controller import TriagemController
 from ...model.prioridade_cor import PrioridadeCor
 from ...model.paciente import Paciente
 
-# Configura o console Rich
-console = Console()
-
-# Define um tema personalizado para as cores das pulseiras
 custom_theme = Theme({
     "vermelha": "bold white on red",
     "amarela": "bold black on yellow",
@@ -33,32 +23,22 @@ custom_theme = Theme({
     "prompt": "bright_green",
     "table_header": "bold magenta",
 })
-# Reinstancia o console com o tema personalizado
+
 console = Console(theme=custom_theme)
 
-
 def clear_screen():
-    """Limpa a tela do terminal."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
-
 def draw_header(title: str):
-    """Desenha um cabeçalho formatado para as telas do terminal usando Rich."""
     clear_screen()
     console.print(Panel(Text(title, justify="center", style="header"), border_style="blue"))
     console.print("\n")
 
-
 class TelaRecepcaoTriagem:
-    """
-    Gerencia a interface de usuário para o Módulo de Recepção e Triagem no terminal,
-    utilizando a biblioteca Rich para uma experiência visual aprimorada.
-    """
     def __init__(self):
         self.controller = TriagemController()
 
     def exibir_menu(self):
-        """Exibe o menu principal da Recepção/Triagem."""
         while True:
             draw_header("MÓDULO: RECEPÇÃO E TRIAGEM")
 
@@ -83,11 +63,9 @@ class TelaRecepcaoTriagem:
             else:
                 console.print("[red]Opção inválida. Tente novamente.[/red]")
 
-            # Pausa para o usuário ler, usando Rich.prompt.Confirm
             Confirm.ask(Text("\nPressione ENTER para continuar...", style="info"))
 
     def _cadastrar_triar_paciente(self):
-        """Coleta dados do paciente e chama o controlador para cadastro/triagem."""
         draw_header("CADASTRO/TRIAGEM DE PACIENTE")
 
         nome = Prompt.ask(Text("Nome do Paciente", style="input"))
@@ -100,7 +78,7 @@ class TelaRecepcaoTriagem:
         console.print("\n[bold]--- Classificação de Prioridade (Pulseira) ---[/bold]")
         prioridade_options = []
         for i, cor_enum in enumerate(PrioridadeCor, 1):
-            cor_style = cor_enum.name.lower() # Ex: "vermelha" para o tema
+            cor_style = cor_enum.name.lower()
             prioridade_options.append(str(i))
             console.print(f"[{cor_style}]{i}. {cor_enum.value}[/{cor_style}]")
 
@@ -123,7 +101,7 @@ class TelaRecepcaoTriagem:
             sexo=sexo,
             problemas_saude_str=problemas_saude_str,
             alergias_medicamentos_str=alergias_medicamentos_str,
-            cor_prioridade_opcao=cor_prioridade_selecionada.name # Envia o NOME do Enum (ex: "VERMELHA")
+            cor_prioridade_opcao=cor_prioridade_selecionada.name
         )
 
         if paciente:
@@ -133,9 +111,7 @@ class TelaRecepcaoTriagem:
         else:
             console.print(Panel(Text(f"FALHA: {mensagem}", style="bold red"), border_style="red"))
 
-
     def _visualizar_fila_atendimento(self):
-        """Exibe a fila de atendimento médico."""
         draw_header("FILA DE ATENDIMENTO MÉDICO")
 
         fila = self.controller.listar_fila_atendimento_medico()
@@ -147,7 +123,7 @@ class TelaRecepcaoTriagem:
         table = Table(
             title=Text("Pacientes em Espera", style="bold magenta"),
             show_footer=False,
-            box=None, # Tentar um estilo de caixa mais limpo
+            box=None,
             header_style="table_header"
         )
         table.add_column("POS", justify="right", style="cyan", width=5)

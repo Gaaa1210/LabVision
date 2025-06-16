@@ -1,4 +1,4 @@
-# src/sistemadegestaodepacientes/core/fila_base.py
+
 
 from abc import ABC, abstractmethod
 from sistemadegestaodepacientes.model.paciente import Paciente

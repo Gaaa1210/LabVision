@@ -1,4 +1,3 @@
-# src/sistemadegestaodepacientes/modulo_consultorio_medico/view/tela_consultorio_medico.py
 import os
 from rich.console import Console
 from rich.panel import Panel
@@ -7,18 +6,14 @@ from rich.prompt import Prompt, Confirm
 from rich.table import Table
 from rich.theme import Theme
 
-# IMPORTAÇÕES CORRIGIDAS PARA O CAMINHO RELATIVO
-# '.' refere-se ao pacote atual (view).
-# '..' refere-se ao pacote pai (modulo_consultorio_medico).
-# '...' refere-se ao pacote avô (sistemadegestaodepacientes).
+
 
 from ..controller.atendimento_controller import AtendimentoController
-from ...model.paciente import Paciente # Para exibir paciente
-from ...model.tipo_exame import TipoExame # Para opções de exame
-from ...model.prioridade_cor import PrioridadeCor # Para exibir cores na tabela
+from ...model.paciente import Paciente 
+from ...model.tipo_exame import TipoExame 
+from ...model.prioridade_cor import PrioridadeCor 
 
-# Reutiliza as configurações de console e cores da RecepcaoTriagem
-# Você pode ter um módulo de utilitários de UI para compartilhar isso, mas por enquanto, copiaremos.
+
 console = Console()
 custom_theme = Theme({
     "vermelha": "bold white on red",
@@ -122,7 +117,7 @@ class TelaConsultorioMedico:
                 except ValueError:
                     console.print("[red]Entrada inválida. Digite um número.[/red]")
 
-        # Processa o atendimento
+        
         atendimento_registrado, mensagem = self.controller.processar_atendimento_medico(
             paciente=paciente_atual,
             observacoes=observacoes,

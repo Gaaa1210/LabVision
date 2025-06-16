@@ -1,12 +1,12 @@
-# src/sistemadegestaodepacientes/modulo_consultorio_medico/controller/atendimento_controller.py
 
-# IMPORTAÇÕES CORRIGIDAS PARA O CAMINHO RELATIVO:
+
+
 from ...model.paciente import Paciente
 from ...model.tipo_exame import TipoExame
 from ...model.atendimento_medico import AtendimentoMedico
 from ...service.atendimento_service import AtendimentoService
 from ...service.fila_service import FilaService
-from ...service.exame_service import ExameService  # ✅ IMPORTADO
+from ...service.exame_service import ExameService 
 
 class AtendimentoController:
     """
@@ -15,7 +15,7 @@ class AtendimentoController:
     def __init__(self):
         self.atendimento_service = AtendimentoService()
         self.fila_service = FilaService()
-        self.exame_service = ExameService()  # ✅ INSTANCIADO
+        self.exame_service = ExameService()
 
     def obter_proximo_paciente_fila_atendimento(self) -> Paciente | None:
         fila = self.fila_service.listar_fila_atendimento()
@@ -37,7 +37,7 @@ class AtendimentoController:
             tipo_exame_solicitado=tipo_exame_obj
         )
 
-        # ✅ Encaminha para exames se necessário
+        
         if atendimento and necessita_exames:
             self.exame_service.adicionar_paciente_exame(paciente)
 

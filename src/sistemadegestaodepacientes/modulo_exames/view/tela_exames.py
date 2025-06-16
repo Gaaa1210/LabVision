@@ -89,7 +89,7 @@ class TelaExames:
         for exame in exames:
             tabela.add_row(
                 exame.paciente.nome,
-                exame.tipo_exame.tipo,  # Agora exame.tipo_exame é um objeto
+                exame.tipo_exame.tipo,  
                 f"{exame.largura:.1f}",
                 f"{exame.altura:.1f}",
                 f"{exame.comprimento:.1f}",

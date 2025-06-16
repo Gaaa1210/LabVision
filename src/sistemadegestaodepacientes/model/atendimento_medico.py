@@ -1,4 +1,4 @@
-# src/sistemadegestaodepacientes/model/atendimento_medico.py
+
 from datetime import datetime
 # Importações relativas dentro do pacote 'model'
 from .paciente import Paciente
@@ -14,7 +14,7 @@ class AtendimentoMedico:
         self.observacoes = observacoes
         self.necessita_exames = necessita_exames
         self.tipo_exame_solicitado = tipo_exame_solicitado
-        self.data_atendimento = datetime.now() # Data e hora do atendimento
+        self.data_atendimento = datetime.now()  
 
     def __str__(self):
         exame_str = f", Exame Solicitado: {self.tipo_exame_solicitado.value}" if self.necessita_exames and self.tipo_exame_solicitado else ""

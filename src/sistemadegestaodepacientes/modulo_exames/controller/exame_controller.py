@@ -1,5 +1,6 @@
 from sistemadegestaodepacientes.service.exame_service import ExameService
 from sistemadegestaodepacientes.repository.paciente_repository import PacienteRepository
+from sistemadegestaodepacientes.model.tipo_exame import TipoExame
 
 class ExameController:
     def __init__(self):
@@ -10,22 +11,24 @@ class ExameController:
         paciente = self.exame_service.get_proximo_paciente_exame()
 
         if paciente:
-            print(f"👩‍⚕️ Próximo paciente para exame: {paciente.nome} - Prioridade: {paciente.prioridade_cor}")
+            print(f"👩‍⚕️ Próximo paciente para exame: {paciente.nome} - Prioridade: {paciente.cor_prioridade}")
             return paciente
         else:
             print("📭 Não há pacientes na fila de exames.")
             return None
 
-    def registrar_resultado_exame(self, cpf, tipo_amostra, largura, altura, comprimento, info_observadas, exame_realizado):
+    def registrar_resultado_exame(self, cpf, tipo_exame_str, largura, altura, comprimento, info_observadas, exame_realizado):
         paciente = self.paciente_repository.buscar_paciente_por_cpf(cpf)
 
         if not paciente:
             print(f"❌ Paciente com CPF {cpf} não encontrado.")
             return False
 
+        tipo_exame = TipoExame(tipo=tipo_exame_str)
+
         sucesso = self.exame_service.registrar_exame(
             paciente=paciente,
-            tipo_amostra=tipo_amostra,
+            tipo_exame=tipo_exame,
             largura=largura,
             altura=altura,
             comprimento=comprimento,
@@ -39,3 +42,6 @@ class ExameController:
         else:
             print("⚠️ Falha ao registrar o exame.")
             return False
+
+    def listar_resultados_exames(self):
+        return self.exame_service.get_todos_exames()

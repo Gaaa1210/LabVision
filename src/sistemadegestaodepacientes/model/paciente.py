@@ -4,9 +4,9 @@ from .prioridade_cor import PrioridadeCor
 
 class Paciente:
     def __init__(self, nome: str, data_nascimento: date, cpf:str, sexo: str,
-                 problemas_saude: list = None, # <--- CORRIGIDO PARA O PLURAL AQUI
-                 alergias_medicamentos: list = None,
-                 cor_prioridade: PrioridadeCor = None):
+        problemas_saude: list = None, # <--- CORRIGIDO PARA O PLURAL AQUI
+        alergias_medicamentos: list = None,
+        cor_prioridade: PrioridadeCor = None):
         self.nome = nome
         self.data_nascimento = data_nascimento
         self.cpf = cpf

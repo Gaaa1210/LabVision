@@ -1,47 +1,48 @@
-from sistemadegestaodepacientes.service.exame_service import ExameService
-from sistemadegestaodepacientes.repository.paciente_repository import PacienteRepository
-from sistemadegestaodepacientes.model.tipo_exame import TipoExame
+from ...model.paciente import Paciente
+from ...model.exame import Exame
+from ...model.tipo_exame import TipoExame
+from ...service.exame_service import ExameService
+from ...service.fila_service import FilaService 
 
 class ExameController:
+    """
+    Controla as interações do módulo de exames.
+    """
     def __init__(self):
         self.exame_service = ExameService()
-        self.paciente_repository = PacienteRepository()
+        self.fila_service = FilaService()
 
-    def chamar_proximo_paciente(self):
-        paciente = self.exame_service.get_proximo_paciente_exame()
+    def obter_proximo_paciente_fila_exames(self) -> Paciente | None:
+        """
+        Retorna o paciente com a maior prioridade na fila de exames.
+        """
+        fila = self.fila_service.listar_fila_exames()
+        return fila[0] if fila else None 
 
-        if paciente:
-            print(f"👩‍⚕️ Próximo paciente para exame: {paciente.nome} - Prioridade: {paciente.cor_prioridade}")
-            return paciente
-        else:
-            print("📭 Não há pacientes na fila de exames.")
-            return None
+    def registrar_realizacao_exame(self, paciente: Paciente, tipo_exame_opcao: str,
+                                  largura: float = None, altura: float = None,
+                                  comprimento: float = None, informacoes_observadas: str = None) -> tuple[Exame | None, str]:
+        """
+        Processa o registro da realização de um exame, incluindo resultados e observações.
+        """
+        try:
+            tipo_exame_obj = TipoExame[tipo_exame_opcao.upper()]
+        except KeyError:
+            return None, "Erro: Tipo de exame inválido."
 
-    def registrar_resultado_exame(self, cpf, tipo_exame_str, largura, altura, comprimento, info_observadas, exame_realizado):
-        paciente = self.paciente_repository.buscar_paciente_por_cpf(cpf)
-
-        if not paciente:
-            print(f"❌ Paciente com CPF {cpf} não encontrado.")
-            return False
-
-        tipo_exame = TipoExame(tipo=tipo_exame_str)
-
-        sucesso = self.exame_service.registrar_exame(
+        return self.exame_service.registrar_realizacao_exame(
             paciente=paciente,
-            tipo_exame=tipo_exame,
+            tipo_exame=tipo_exame_obj,
             largura=largura,
             altura=altura,
             comprimento=comprimento,
-            info_observadas=info_observadas,
-            exame_realizado=exame_realizado
+            informacoes_observadas=informacoes_observadas
         )
 
-        if sucesso:
-            print("✅ Resultado do exame registrado com sucesso.")
-            return True
-        else:
-            print("⚠️ Falha ao registrar o exame.")
-            return False
+    def listar_fila_exames(self) -> list[Paciente]:
+        """Retorna a fila de exames para exibição."""
+        return self.fila_service.listar_fila_exames()
 
-    def listar_resultados_exames(self):
-        return self.exame_service.get_todos_exames()
+    def gerar_laudo(self, exame: Exame) -> str:
+        """Gera o laudo final de um exame."""
+        return self.exame_service.gerar_laudo_final(exame)

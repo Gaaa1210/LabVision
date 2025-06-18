@@ -1,4 +1,3 @@
-# src/sistemadegestaodepacientes/util/date_util.py
 from datetime import date, datetime
 
 def parse_date_string(date_str: str, date_format: str = "%d/%m/%Y") -> date | None:

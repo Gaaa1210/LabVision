@@ -1,81 +1,71 @@
-
-
-from sistemadegestaodepacientes.model.paciente import Paciente
-from sistemadegestaodepacientes.model.tipo_exame import TipoExame
-from sistemadegestaodepacientes.model.resultado_exame import ResultadoExame
 from datetime import datetime
+from ..model.paciente import Paciente
+from ..model.exame import Exame
+from ..model.tipo_exame import TipoExame 
+from ..repository.exame_repository import ExameRepository 
+from ..service.fila_service import FilaService 
 
 class ExameService:
-    _instancia = None
-
-    def __new__(cls):
-        if cls._instancia is None:
-            cls._instancia = super(ExameService, cls).__new__(cls)
-            cls._instancia._inicializado = False
-        return cls._instancia
-
+    """
+    Gerencia a lógica de negócio para a realização de exames.
+    """
     def __init__(self):
-        if not self._inicializado:
-            self.fila_exames = []
-            self.resultados_exames = []  
-            self._inicializado = True
+        self.exame_repo = ExameRepository()
+        self.fila_service = FilaService()
 
-    def adicionar_paciente_exame(self, paciente: Paciente):
-        if paciente not in self.fila_exames:
-            self.fila_exames.append(paciente)
-
-    def get_proximo_paciente_exame(self):
-        if not self.fila_exames:
-            return None
-
-        pacientes_ordenados = self.ordenar_por_prioridade(self.fila_exames)
-        return pacientes_ordenados[0] if pacientes_ordenados else None
-
-    def ordenar_por_prioridade(self, pacientes):
-        prioridade_cores = {
-            "vermelho": 1,
-            "amarelo": 2,
-            "verde": 3,
-            "azul": 4,
-            "branco": 5
-        }
-
-        def idade_preferencial(idade):
-            return 0 if (idade <= 12 or idade >= 60) else 1
-
-        def chave_prioridade(paciente):
-            cor = paciente.cor_prioridade.name.lower() if paciente.cor_prioridade else "branco"
-            prioridade_cor = prioridade_cores.get(cor, 5)
-            prioridade_idade = idade_preferencial(paciente.idade)
-            data_chegada = paciente.data_chegada
-            if isinstance(data_chegada, str):
-                try:
-                    data_chegada = datetime.fromisoformat(data_chegada)
-                except Exception:
-                    data_chegada = datetime.min
-            return (prioridade_cor, prioridade_idade, data_chegada)
-
-        return sorted(pacientes, key=chave_prioridade)
-
-    def registrar_exame(self, paciente: Paciente, tipo_exame: TipoExame,
-                        largura: float, altura: float, comprimento: float,
-                        info_observadas: str, exame_realizado: bool) -> bool:
-        resultado = ResultadoExame(
+    def registrar_realizacao_exame(self, paciente: Paciente, tipo_exame: TipoExame,
+                                  largura: float = None, altura: float = None,
+                                  comprimento: float = None, informacoes_observadas: str = None) -> tuple[Exame, str]:
+        """
+        Registra a realização de um exame e os seus resultados.
+        Remove o paciente da fila de exames após a conclusão.
+        """
+        exame_registrado = Exame(
             paciente=paciente,
             tipo_exame=tipo_exame,
             largura=largura,
             altura=altura,
             comprimento=comprimento,
-            informacoes_observadas=info_observadas,
-            exame_realizado=exame_realizado
+            informacoes_observadas=informacoes_observadas,
+            exame_realizado=True 
         )
 
-        self.resultados_exames.append(resultado)
+        self.exame_repo.registrar_exame(exame_registrado)
 
-        if exame_realizado and paciente in self.fila_exames:
-            self.fila_exames.remove(paciente)
+        self.fila_service.remover_paciente_fila_exames(paciente)
+        print(f"DEBUG: Paciente '{paciente.nome}' removido da fila de exames.")
 
-        return True
+        return exame_registrado, "Exame registrado com sucesso e paciente removido da fila de exames."
 
-    def get_todos_exames(self) -> list[ResultadoExame]:
-        return self.resultados_exames
+    def listar_fila_exames(self) -> list[Paciente]:
+        """
+        Retorna a lista de pacientes na fila de exames,
+        para que o técnico possa visualizar quem realizar exames.
+        """
+        return self.fila_service.listar_fila_exames()
+
+    def gerar_laudo_final(self, exame: Exame) -> str:
+        """
+        Gera o texto do laudo final para um exame.
+        """
+        laudo = f"--- LAUDO FINAL DE EXAME ---\n"
+        laudo += f"Paciente: {exame.paciente.nome} (CPF: {exame.paciente.cpf})\n"
+        laudo += f"Tipo de Exame: {exame.tipo_exame.value}\n"
+        laudo += f"Data de Realização: {exame.data_realizacao.strftime('%d/%m/%Y %H:%M:%S')}\n"
+        laudo += f"Status: {'Concluído' if exame.exame_realizado else 'Pendente'}\n"
+
+        if exame.largura is not None or exame.altura is not None or exame.comprimento is not None:
+            laudo += f"Medidas:\n"
+            if exame.largura is not None: laudo += f"  Largura: {exame.largura}\n"
+            if exame.altura is not None: laudo += f"  Altura: {exame.altura}\n"
+            if exame.comprimento is not None: laudo += f"  Comprimento: {exame.comprimento}\n"
+
+        if exame.informacoes_observadas:
+            laudo += f"Informações Observadas: {exame.informacoes_observadas}\n"
+
+        laudo += "---------------------------\n"
+        return laudo
+
+    def buscar_exames_por_cpf(self, cpf: str) -> list[Exame]:
+        """Busca exames de um paciente pelo CPF."""
+        return self.exame_repo.buscar_exames_por_cpf(cpf)
